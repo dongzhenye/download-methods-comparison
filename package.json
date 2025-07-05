@@ -1,13 +1,19 @@
-{
+n{
   "name": "download-error",
   "private": true,
-  "version": "0.0.0",
+  "version": "1.0.0",
+  "description": "前端下载方式兼容性演示 - 展示不同下载方式在后端报错时的表现差异",
   "type": "module",
+  "keywords": ["react", "download", "frontend", "demo", "compatibility", "error-handling"],
+  "author": "Your Name",
+  "license": "MIT",
   "scripts": {
     "dev": "vite",
     "build": "vite build",
     "lint": "eslint .",
-    "preview": "vite preview"
+    "lint:fix": "eslint . --fix",
+    "preview": "vite preview",
+    "clean": "rm -rf dist"
   },
   "dependencies": {
     "react": "^19.1.0",

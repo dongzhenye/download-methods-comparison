@@ -1,7 +1,7 @@
 import React, { useRef, useState } from 'react';
 
 function App() {
-  // 默认示例链接（tronscan接口）
+  // 默认示例链接（WS Form官方示例）
   const [normalUrl, setNormalUrl] = useState('https://cdn.wsform.com/wp-content/uploads/2020/06/industry.csv');
   const [errorUrl, setErrorUrl] = useState('https://cdn.wsform.com/wp-content/uploads/2020/06/not_exist.csv');
   const [errorMode, setErrorMode] = useState(false);
@@ -12,9 +12,12 @@ function App() {
 
   const url = errorMode ? errorUrl : normalUrl;
 
+  // 清除消息
+  const clearMessage = () => setMessage('');
+
   // 1. a标签方式
   const handleHrefDownload = () => {
-    setMessage('');
+    clearMessage();
     if (aRef.current) {
       aRef.current.href = url;
       aRef.current.click();
@@ -24,38 +27,58 @@ function App() {
 
   // 2. window.open方式
   const handleOpenDownload = () => {
-    setMessage('');
-    window.open(url);
-    setMessage('已尝试新窗口下载（如接口报错，可能跳转到错误页面）');
+    clearMessage();
+    try {
+      window.open(url);
+      setMessage('已尝试新窗口下载（如接口报错，可能跳转到错误页面）');
+    } catch (error) {
+      setMessage('打开新窗口失败：' + error.message);
+    }
   };
 
   // 3. fetch+Blob方式
   const handleFetchDownload = async () => {
-    setMessage('');
+    clearMessage();
     setDownloading(true);
+    
     try {
       const res = await fetch(url);
-      if (!res.ok) throw new Error('接口返回错误');
+      
+      if (!res.ok) {
+        throw new Error(`HTTP ${res.status}: ${res.statusText}`);
+      }
+      
       const blob = await res.blob();
+      
       // 尝试从url或header获取文件名
       let filename = 'downloaded_file';
       const disposition = res.headers.get('content-disposition');
+      
       if (disposition && disposition.includes('filename=')) {
         filename = decodeURIComponent(disposition.split('filename=')[1].replace(/['"]/g, ''));
       } else {
-        // 从url提取
+        // 从url提取文件名
         const urlParts = url.split('/');
-        if (urlParts.length > 0) filename = urlParts[urlParts.length - 1];
+        if (urlParts.length > 0) {
+          filename = urlParts[urlParts.length - 1];
+        }
       }
+      
+      // 创建下载链接
       const link = document.createElement('a');
       link.href = window.URL.createObjectURL(blob);
       link.download = filename;
       document.body.appendChild(link);
       link.click();
       document.body.removeChild(link);
+      
+      // 清理内存
+      window.URL.revokeObjectURL(link.href);
+      
       setMessage('下载成功（如接口报错会被拦截并提示）');
-    } catch (e) {
-      setMessage('下载失败：' + (e.message || '未知错误'));
+    } catch (error) {
+      console.error('下载失败:', error);
+      setMessage('下载失败：' + (error.message || '未知错误'));
     } finally {
       setDownloading(false);
     }
@@ -103,10 +126,10 @@ function App() {
               <label style={{ fontSize: 13, color: '#222', fontWeight: 600, marginBottom: 3 }}>模拟接口报错</label>
               <label style={{ display: 'flex', alignItems: 'center', fontSize: 14, fontWeight: 500, userSelect: 'none', height: 36, cursor: 'pointer' }}>
                 <span style={{ position: 'relative', display: 'inline-block', width: 38, height: 22, marginRight: 8 }}>
-                  <input
-                    type="checkbox"
-                    checked={errorMode}
-                    onChange={e => setErrorMode(e.target.checked)}
+        <input
+          type="checkbox"
+          checked={errorMode}
+          onChange={e => setErrorMode(e.target.checked)}
                     style={{ opacity: 0, width: 0, height: 0 }}
                   />
                   <span style={{
@@ -135,7 +158,7 @@ function App() {
                   }}></span>
                 </span>
                 <span style={{ color: errorMode ? '#2563eb' : '#888', fontWeight: 600 }}>{errorMode ? '已开启' : '关闭'}</span>
-              </label>
+      </label>
             </div>
           </div>
           <div style={{ color: '#888', fontSize: 12, marginTop: 7, textAlign: 'center' }}>
@@ -168,8 +191,8 @@ function App() {
           <div style={{ background: '#fff', border: '1px solid #e5e7eb', borderRadius: 4, boxShadow: '0 1px 4px #0001', padding: 10, flex: 1, minWidth: 0, display: 'flex', flexDirection: 'column', alignItems: 'center', minHeight: 150 }}>
             <div style={{ color: '#059669', fontWeight: 700, fontSize: 14, marginBottom: 4 }}>fetch + Blob</div>
             <button onClick={handleFetchDownload} disabled={downloading} style={{ padding: '7px 18px', borderRadius: 4, border: '1.5px solid #059669', background: downloading ? '#a7f3d0' : '#059669', color: '#fff', cursor: downloading ? 'not-allowed' : 'pointer', marginTop: 4, fontSize: 14, fontWeight: 600, marginBottom: 6, height: 36, minWidth: 70 }}>
-              {downloading ? '下载中...' : '下载'}
-            </button>
+        {downloading ? '下载中...' : '下载'}
+      </button>
             <div style={{ color: '#888', fontSize: 12, marginTop: 2, textAlign: 'center', lineHeight: 1.5 }}>
               推荐方式，可拦截接口报错并友好提示。<br />
               <span style={{ color: '#b91c1c', fontWeight: 500 }}>如目标服务器未设置CORS，fetch方式会报错。</span>
