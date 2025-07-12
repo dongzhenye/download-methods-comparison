@@ -1,12 +1,20 @@
-n{
-  "name": "download-error",
-  "private": true,
+{
+  "name": "download-methods-comparison",
+  "private": false,
   "version": "1.0.0",
-  "description": "前端下载方式兼容性演示 - 展示不同下载方式在后端报错时的表现差异",
+  "description": "A React demo comparing different file download methods and their error handling capabilities",
   "type": "module",
-  "keywords": ["react", "download", "frontend", "demo", "compatibility", "error-handling"],
-  "author": "Your Name",
+  "keywords": ["react", "download", "frontend", "demo", "error-handling", "file-download", "comparison", "web-api"],
+  "author": "Zhenye Dong <dongzhenye@users.noreply.github.com>",
   "license": "MIT",
+  "homepage": "https://github.com/dongzhenye/download-methods-comparison#readme",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/dongzhenye/download-methods-comparison.git"
+  },
+  "bugs": {
+    "url": "https://github.com/dongzhenye/download-methods-comparison/issues"
+  },
   "scripts": {
     "dev": "vite",
     "build": "vite build",
