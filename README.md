@@ -7,6 +7,11 @@
 [![License](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
 [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](CONTRIBUTING.md)
 
+<h3>
+  <a href="https://download-methods.vercel.app/">🚀 Live Demo</a> |
+  <a href="https://github.com/dongzhenye/download-methods-comparison">GitHub</a>
+</h3>
+
 <img src="./public/demo-screenshot.png" alt="Demo Screenshot" width="800">
 
 [English](#english) | [中文](#中文)
