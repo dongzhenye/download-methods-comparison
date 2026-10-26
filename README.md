@@ -3,7 +3,7 @@
 <div align="center">
 
 [![React](https://img.shields.io/badge/React-19.1.0-blue.svg)](https://reactjs.org/)
-[![Vite](https://img.shields.io/badge/Vite-7.0.0-purple.svg)](https://vitejs.dev/)
+[![Vite](https://img.shields.io/badge/Vite-7.3.7-purple.svg)](https://vitejs.dev/)
 [![License](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
 [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](CONTRIBUTING.md)
 
@@ -39,7 +39,7 @@ A modern React demo application that compares three different file download meth
 
 #### Prerequisites
 
-- Node.js >= 16
+- Node.js 20.19+ or 22.12+
 - npm or pnpm
 
 #### Installation
@@ -112,7 +112,7 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 #### 环境要求
 
-- Node.js >= 16
+- Node.js 20.19+ or 22.12+
 - npm 或 pnpm
 
 #### 安装步骤
